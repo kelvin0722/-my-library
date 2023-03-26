@@ -1,0 +1,70 @@
+scalar DateTime
+scalar Email
+
+type User {
+  id: Int!
+  email: Email!
+  firstName: String
+  lastName: String
+  createdAt: DateTime!
+  books: [Book]
+}
+
+type Book {
+  id: String!
+  title: String!
+  author: String!
+  date: DateTime!
+  coverImage: String
+  collection: Collection
+  rating: String
+  createdAt: DateTime!
+}
+
+type AuthPayload {
+  token: String!
+  user: User!
+}
+enum Collection {
+  WANT_TO_READ
+  READING
+  READ
+}
+
+input AddBookInput {
+  title: String!
+  author: String!
+  coverImage: String
+}
+
+input UpdateBookInput {
+  id: Int!
+  title: String!
+  author: String!
+  coverImage: String
+}
+
+input UserInput {
+  email: Email!
+  firstName: String
+  lastName: String
+  password: String!
+}
+
+input AuthInput {
+  email: Email!
+  password: String!
+}
+
+type Query {
+  books: [Book!]!
+  book(id: String!): Book!
+}
+
+type Mutation {
+  addBook(bookInput: AddBookInput!): Book!
+  updateBook(bookInput: UpdateBookInput!): Book!
+  deleteBook(id: Int!): Boolean!
+  login(authInput: AuthInput!): AuthPayload!
+  signup(userInput: UserInput!): User!
+}
