@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { UserModule } from './user/user.module';
 import { BookModule } from './book/book.module';
+import { CollectionModule } from './collection/collection.module';
 import resolvers from './graphql/resolvers';
 
 @Module({
@@ -25,6 +26,7 @@ import resolvers from './graphql/resolvers';
     }),
     UserModule,
     BookModule,
+    CollectionModule,
   ],
 })
 export class AppModule {}
