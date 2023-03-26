@@ -36,6 +36,7 @@ model Book {
   coverImage String?
   collection Collection?
   rating     Int?
-  userId     Int
-  user       User       @relation(fields: [userId], references: [id])
+  active     Boolean     @default(true)
+  userId     Int?
+  user       User?       @relation(fields: [userId], references: [id])
 }

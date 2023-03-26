@@ -25,6 +25,10 @@ type AuthPayload {
   token: String!
   user: User!
 }
+
+type RemoveBookResponse {
+  success: Boolean
+}
 enum Collection {
   WANT_TO_READ
   READING
@@ -64,7 +68,7 @@ type Query {
 type Mutation {
   addBook(bookInput: AddBookInput!): Book!
   updateBook(bookInput: UpdateBookInput!): Book!
-  deleteBook(id: Int!): Boolean!
+  removeBook(id: Int!): RemoveBookResponse!
   login(authInput: AuthInput!): AuthPayload!
   signup(userInput: UserInput!): User!
 }
