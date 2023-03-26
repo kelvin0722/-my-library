@@ -11,13 +11,12 @@ type User {
 }
 
 type Book {
-  id: String!
+  id: Int!
   title: String!
   author: String!
-  date: DateTime!
   coverImage: String
-  collection: Collection
-  rating: String
+  collectionStatus: CollectionStatus
+  rating: Int
   createdAt: DateTime!
 }
 
@@ -29,7 +28,7 @@ type AuthPayload {
 type RemoveBookResponse {
   success: Boolean
 }
-enum Collection {
+enum CollectionStatus {
   WANT_TO_READ
   READING
   READ
@@ -60,15 +59,58 @@ input AuthInput {
   password: String!
 }
 
+input AddToCollectionInput {
+  bookId: Int!
+  status: CollectionStatus
+}
+
+type ViewCollectionPayload {
+  id: Int!
+  books: [BookPayload]
+}
+type AddToCollectionPayload {
+  id: Int!
+  user: User!
+  books: [BookPayload]
+}
+
+type BookPayload {
+  id: Int!
+  title: String!
+  author: String!
+  coverImage: String
+  collectionStatus: String
+  rating: Int
+  createdAt: DateTime!
+}
+
+input RatingInput {
+   bookId: Int!
+   rating: Int!
+}
+
+type RatingPayload {
+   id: Int!
+   user: User!
+   books: [BookPayload]
+}
+
+
 type Query {
   books: [Book!]!
   book(id: String!): Book!
+
+  viewCollection: ViewCollectionPayload!
 }
 
 type Mutation {
-  addBook(bookInput: AddBookInput!): Book!
-  updateBook(bookInput: UpdateBookInput!): Book!
+  login(input: AuthInput!): AuthPayload!
+  signup(input: UserInput!): User!
+
+  addBook(input: AddBookInput!): BookPayload!
+  updateBook(input: UpdateBookInput!): BookPayload!
   removeBook(id: Int!): RemoveBookResponse!
-  login(authInput: AuthInput!): AuthPayload!
-  signup(userInput: UserInput!): User!
+
+  addToCollection(input: AddToCollectionInput!): AddToCollectionPayload!
+  rateBookInCollection(input: RatingInput!): RatingPayload!
 }

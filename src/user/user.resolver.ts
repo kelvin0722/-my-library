@@ -7,12 +7,12 @@ export class UserResolver {
   constructor(private userService: UserService) {}
 
   @Mutation('signup')
-  async create(@Args('userInput') args: UserInput): Promise<User> {
+  async create(@Args('input') args: UserInput): Promise<User> {
     return this.userService.register(args);
   }
 
   @Mutation('login')
-  async login(@Args('authInput') args: AuthInput): Promise<AuthPayload> {
+  async login(@Args('input') args: AuthInput): Promise<AuthPayload> {
     return this.userService.login(args);
   }
 }

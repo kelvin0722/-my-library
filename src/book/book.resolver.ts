@@ -12,7 +12,7 @@ export class BookResolver {
 
   @Mutation('addBook')
   @UseGuards(JwtGuard)
-  async addBook(@Args('bookInput') args: AddBookInput): Promise<Book> {
+  async addBook(@Args('input') args: AddBookInput): Promise<Book> {
     return this.bookService.addBook(args);
   }
 

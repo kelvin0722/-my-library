@@ -7,7 +7,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export enum Collection {
+export enum CollectionStatus {
   WANT_TO_READ = 'WANT_TO_READ',
   READING = 'READING',
   READ = 'READ',
@@ -38,6 +38,16 @@ export interface AuthInput {
   password: string;
 }
 
+export interface AddToCollectionInput {
+  bookId: number;
+  status?: Nullable<CollectionStatus>;
+}
+
+export interface RatingInput {
+  bookId: number;
+  rating: number;
+}
+
 export interface User {
   id: number;
   email: Email;
@@ -48,13 +58,12 @@ export interface User {
 }
 
 export interface Book {
-  id: string;
+  id: number;
   title: string;
   author: string;
-  date: DateTime;
   coverImage?: Nullable<string>;
-  collection?: Nullable<Collection>;
-  rating?: Nullable<string>;
+  collectionStatus?: Nullable<CollectionStatus>;
+  rating?: Nullable<number>;
   createdAt: DateTime;
 }
 
@@ -67,17 +76,51 @@ export interface RemoveBookResponse {
   success?: Nullable<boolean>;
 }
 
+export interface ViewCollectionPayload {
+  id: number;
+  books?: Nullable<Nullable<BookPayload>[]>;
+}
+
+export interface AddToCollectionPayload {
+  id: number;
+  user: User;
+  books?: Nullable<Nullable<BookPayload>[]>;
+}
+
+export interface BookPayload {
+  id: number;
+  title: string;
+  author: string;
+  coverImage?: Nullable<string>;
+  collectionStatus?: Nullable<string>;
+  rating?: Nullable<number>;
+  createdAt: DateTime;
+}
+
+export interface RatingPayload {
+  id: number;
+  user: User;
+  books?: Nullable<Nullable<BookPayload>[]>;
+}
+
 export interface IQuery {
   books(): Book[] | Promise<Book[]>;
   book(id: string): Book | Promise<Book>;
+  viewCollection(): ViewCollectionPayload | Promise<ViewCollectionPayload>;
 }
 
 export interface IMutation {
-  addBook(bookInput: AddBookInput): Book | Promise<Book>;
-  updateBook(bookInput: UpdateBookInput): Book | Promise<Book>;
+  login(input: AuthInput): AuthPayload | Promise<AuthPayload>;
+  signup(input: UserInput): User | Promise<User>;
+  addBook(input: AddBookInput): BookPayload | Promise<BookPayload>;
+  updateBook(input: UpdateBookInput): BookPayload | Promise<BookPayload>;
   removeBook(id: number): RemoveBookResponse | Promise<RemoveBookResponse>;
-  login(authInput: AuthInput): AuthPayload | Promise<AuthPayload>;
-  signup(userInput: UserInput): User | Promise<User>;
+  addToCollection(
+    input: AddToCollectionInput,
+  ): AddToCollectionPayload | Promise<AddToCollectionPayload>;
+  rateBookInCollection(
+    input: RatingInput,
+  ): RatingPayload | Promise<RatingPayload>;
 }
 
 export type DateTime = any;
