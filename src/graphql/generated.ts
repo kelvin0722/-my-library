@@ -123,7 +123,7 @@ export interface UploadFilePayload {
 
 export interface IQuery {
     books(): Book[] | Promise<Book[]>;
-    book(id: string): Book | Promise<Book>;
+    book(id: number): Book | Promise<Book>;
     searchBook(term: string): Nullable<Nullable<BookPayload>[]> | Promise<Nullable<Nullable<BookPayload>[]>>;
     viewCollection(): ViewCollectionPayload | Promise<ViewCollectionPayload>;
 }

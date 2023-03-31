@@ -25,6 +25,15 @@ export class BookService {
     return bookResponse;
   }
 
+  async getBook(id: number): Promise<BookPayload> {
+    const bookResponse = await this.prisma.book.findUnique({
+      where: {
+        id,
+      },
+    });
+    return bookResponse;
+  }
+
   async getBooks(): Promise<BookPayload[]> {
     const bookResponse = await this.prisma.book.findMany({
       where: {

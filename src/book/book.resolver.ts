@@ -13,6 +13,12 @@ import {
 export class BookResolver {
   constructor(private bookService: BookService) {}
 
+  @Query('book')
+  @UseGuards(JwtGuard)
+  async getBook(@Args('id') args: number): Promise<BookPayload> {
+    return this.bookService.getBook(args);
+  }
+
   @Query('books')
   @UseGuards(JwtGuard)
   async getBooks(): Promise<BookPayload[]> {
