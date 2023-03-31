@@ -1,18 +1,33 @@
-import { Book } from '@prisma/client';
 import { UseGuards } from '@nestjs/common';
 
-import { JwtGuard } from './../auth/guard/jwt.guard';
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { JwtGuard } from './../auth/guard';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { BookService } from './book.service';
-import { AddBookInput, RemoveBookResponse } from 'src/graphql/generated';
+import {
+  AddBookInput,
+  BookPayload,
+  RemoveBookResponse,
+} from 'src/graphql/generated';
 
 @Resolver('Book')
 export class BookResolver {
   constructor(private bookService: BookService) {}
 
+  @Query('books')
+  @UseGuards(JwtGuard)
+  async getBooks(): Promise<BookPayload[]> {
+    return this.bookService.getBooks();
+  }
+
+  @Query('searchBook')
+  @UseGuards(JwtGuard)
+  async searchBook(@Args('term') args: string): Promise<BookPayload[]> {
+    return this.bookService.searchBooks(args);
+  }
+
   @Mutation('addBook')
   @UseGuards(JwtGuard)
-  async addBook(@Args('input') args: AddBookInput): Promise<Book> {
+  async addBook(@Args('input') args: AddBookInput): Promise<BookPayload> {
     return this.bookService.addBook(args);
   }
 

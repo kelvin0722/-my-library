@@ -1,5 +1,6 @@
 scalar DateTime
 scalar Email
+scalar Upload
 
 type User {
   id: Int!
@@ -34,10 +35,19 @@ enum CollectionStatus {
   READ
 }
 
+enum Genre {
+  NONFICTION
+  FICTION
+  THRILLER
+  ROMANCE
+}
+
 input AddBookInput {
   title: String!
   author: String!
+  description: String
   coverImage: String
+  genre: String
 }
 
 input UpdateBookInput {
@@ -45,6 +55,8 @@ input UpdateBookInput {
   title: String!
   author: String!
   coverImage: String
+  description: String
+  genre: String
 }
 
 input UserInput {
@@ -70,35 +82,41 @@ type ViewCollectionPayload {
 }
 type AddToCollectionPayload {
   id: Int!
-  user: User!
+  user: User
   books: [BookPayload]
 }
 
 type BookPayload {
   id: Int!
-  title: String!
-  author: String!
+  title: String
+  description: String
+  author: String
   coverImage: String
   collectionStatus: String
+  genre: String
   rating: Int
-  createdAt: DateTime!
+  createdAt: DateTime
 }
 
 input RatingInput {
-   bookId: Int!
-   rating: Int!
+  bookId: Int!
+  rating: Int!
 }
 
 type RatingPayload {
-   id: Int!
-   user: User!
-   books: [BookPayload]
+  id: Int!
+  user: User
+  books: [BookPayload]
 }
 
+type UploadFilePayload {
+  url: String!
+}
 
 type Query {
   books: [Book!]!
   book(id: String!): Book!
+  searchBook(term: String!): [BookPayload]
 
   viewCollection: ViewCollectionPayload!
 }
@@ -113,4 +131,6 @@ type Mutation {
 
   addToCollection(input: AddToCollectionInput!): AddToCollectionPayload!
   rateBookInCollection(input: RatingInput!): RatingPayload!
+
+  uploadFile(file: Upload!): UploadFilePayload!
 }
