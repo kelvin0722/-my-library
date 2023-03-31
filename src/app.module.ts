@@ -9,11 +9,11 @@ import { UserModule } from './user/user.module';
 import { BookModule } from './book/book.module';
 import { CollectionModule } from './collection/collection.module';
 import resolvers from './graphql/resolvers';
+import { GoogleCloudService } from './google-cloud/google-cloud.service';
+import { FileModule } from './file/file.module';
 
 @Module({
   imports: [
-    AuthModule,
-    PrismaModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -24,9 +24,13 @@ import resolvers from './graphql/resolvers';
       installSubscriptionHandlers: true,
       resolvers,
     }),
+    AuthModule,
+    PrismaModule,
     UserModule,
     BookModule,
     CollectionModule,
+    FileModule,
   ],
+  providers: [GoogleCloudService],
 })
 export class AppModule {}
