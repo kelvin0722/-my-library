@@ -32,7 +32,7 @@ export class GoogleCloudService {
     const options = {
       version: 'v4',
       action: 'read',
-      expires: Date.now() + 60 * 24 * 60 * 60 * 1000, // 15 minutes
+      expires: Date.now() + 60 * 24 * 60 * 5 * 1000, // 5 days
     };
     // @ts-ignore
     // issue with google cloud options config type for action option
