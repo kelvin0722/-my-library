@@ -16,6 +16,13 @@ enum CollectionStatus {
   READ
 }
 
+enum Genre {
+  NONFICTION
+  FICTION
+  THRILLER
+  ROMANCE
+}
+
 model User {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
@@ -31,12 +38,14 @@ model Book {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
 
-  title      String
-  author     String
-  coverImage String?
+  title            String
+  description      String?           @db.VarChar(700)
+  author           String
+  coverImage       String?
   collectionStatus CollectionStatus?
-  rating     Int?
-  active     Boolean     @default(true)
-  userId     Int?
-  user       User?       @relation(fields: [userId], references: [id])
+  genre            Genre?
+  rating           Int?
+  active           Boolean           @default(true)
+  userId           Int?
+  user             User?             @relation(fields: [userId], references: [id])
 }
