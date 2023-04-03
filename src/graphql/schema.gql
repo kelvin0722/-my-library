@@ -114,9 +114,9 @@ type UploadFilePayload {
 }
 
 type Query {
-  books: [Book!]!
-  book(id: Int!): Book!
-  searchBook(term: String!): [BookPayload]
+  books: [BookPayload]!
+  book(id: Int!): BookPayload!
+  searchBook(term: String!): [BookPayload]!
 
   viewCollection: ViewCollectionPayload!
 }
